@@ -101,8 +101,9 @@ async getCategorie(req,res) {
 
 },
 async findEventById(req,res) {
-  const event = await Event.findOne({where: {id:req.params.id},include:[Category]})
+  const event = await Event.findOne({where: {id:req.params.id},include:[Category,User]})
   if (event) {
+    console.log(event)
 
     return res.status(200).send({competition: event.toJSON()})
   }
@@ -167,7 +168,7 @@ async inscription (req, res) {
           res.status(400).send({
             error: error.message
           })
-        }
+        } 
     },
     async elig (req, res) {
       try {
@@ -265,7 +266,15 @@ async allCategoriesByEvent(req,res) {
 },
 
 
+async findEventByCat(req,res) {
+  const event = await Event.findAll({through: {where:{catId:2}}})
+  if (event) {
 
+    console.log("v",event)
+    return res.status(200).send({event})
+  }
+  else return res.status(404).send("user not found")
+},
 
 }
 

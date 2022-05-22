@@ -88,6 +88,9 @@ module.exports = (app) =>
 
     app.get('/Event/:id',
     EventController.findEventById)
+    
+    app.post('/eventByCat',EventController.findEventByCat)
+
     app.get('/category/:id',
     EventController.findCategoryById)
     app.get('/categoryById/:id',

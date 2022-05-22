@@ -14,7 +14,7 @@ module.exports = io => {
        const round = await Round.findAll({where:{CategoryId:data.catId},include:[Match]})
        socket.emit("matchesRep",{rounds:round})
      })
-
+ 
      socket.on("update_score", async(data)=>{
       
       // const round = await Round.findOne({where:{id:roundId},include:[Match]})
