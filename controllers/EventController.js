@@ -1,5 +1,5 @@
 const fetch = require('node-fetch')
-const {User,Token,Event,Category,Club} = require('../models')
+const {User,Token,Event,Category,Club,Federation} = require('../models')
 const config2 = require('../config2/config')
 const config = require('../config/config')
 const { sendConfirmationEmail, sendResetPasswordEmail,sendAcceptationEmail,sendRefuseEmail } = require('../mailer');
@@ -30,12 +30,11 @@ module.exports = {
         description:req.body.description,
         image:req.file.path,
       })
-       await substr.forEach(element => {
-        Category.findOne({where:{id:element}}).then(response =>{
-          event.addCategory(response)
+     let arr=JSON.parse(req.body.categories)
+      const record = await arr.forEach(element => {
+         event.addCategory(element.idCategory.value,{ through: { categoryDate: element.dateCategory} })
         })
-         
-   });
+ 
 
   
 
@@ -102,10 +101,11 @@ async getCategorie(req,res) {
 },
 async findEventById(req,res) {
   const event = await Event.findOne({where: {id:req.params.id},include:[Category,User]})
-  if (event) {
-    console.log(event)
+  const users= await event.getUsers({include:[Club,Federation]})
 
-    return res.status(200).send({competition: event.toJSON()})
+  if (event) {
+
+    return res.status(200).send({competition: event.toJSON(),users})
   }
   else return res.status(404).send("user not found")
 },

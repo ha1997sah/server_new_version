@@ -21,9 +21,7 @@ module.exports = (sequelize, DataTypes)=>
 Event.associate = models=>{
     Event.belongsToMany(models.Category,{ 
         through: 'Event_Category' ,
-        foreignKey: "Event_id", otherKey: "Category_id",
-
-    onDelete:"cascade"
+        onDelete:"cascade"
  
 }),
 Event.belongsToMany(models.User,{

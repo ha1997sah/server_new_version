@@ -119,7 +119,7 @@ module.exports = {
         lastname:req.body.lastname,
         name:req.body.name,
         phone:req.body.phone,
-        role:"admin",
+        role: req.body.role,
         image:req.body.image,
         email:req.body.email,
         password :pass,
